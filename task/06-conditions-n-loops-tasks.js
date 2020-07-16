@@ -134,9 +134,8 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    if (rect1.top < rect2.top + rect2.width && rect2.top < rect1.top + rect1.width &&
-        rect1.left < rect2.left + rect2.height && rect2.left < rect1.left + rect1.height) return true;
-    else return false;
+    return rect1.top < rect2.top + rect2.width && rect2.top < rect1.top + rect1.width &&
+           rect1.left < rect2.left + rect2.height && rect2.left < rect1.left + rect1.height;
 }
 
 
@@ -168,9 +167,7 @@ function doRectanglesOverlap(rect1, rect2) {
  */
 function isInsideCircle(circle, point) {
     let h = Math.pow(point.x - circle.center.x,2)+Math.pow(point.y - circle.center.y,2);
-    if (h < Math.pow(circle.radius,2)){
-        return true
-    }else return false;
+    return h < Math.pow(circle.radius,2);
 }
 
 
@@ -192,7 +189,7 @@ function findFirstSingleChar(str) {
           return c;
         }
       }
-      return null;
+    return null;
 }
 
 
@@ -221,13 +218,13 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
     let interval = '';
     if (isStartIncluded){
         interval = interval + '[';
-    } else{
+    } else {
         interval = interval + '(';
     }  
     interval = interval + Math.min(a,b)+', '+Math.max(a,b);
     if (isEndIncluded){
         interval = interval + ']';
-    } else{
+    } else {
         interval = interval + ')';
     }  
     return interval;
@@ -269,7 +266,7 @@ function reverseString(str) {
  */
 function reverseInteger(num) {
     let result = 0;
-    while(num != 0){
+    while (num != 0) {
         result = result * 10;
         result = result + num%10;
         num = num - num%10;
@@ -332,12 +329,12 @@ return sum % 10 === 0;
  */
 function getDigitalRoot(num) {
     let sum;
-    do{
+    do {
         sum = 0;
-        while(num != 0){
-        sum = sum + num%10;
-        num = num - num%10;
-        num = num/10;
+        while (num != 0) {
+            sum = sum + num%10;
+            num = num - num%10;
+            num = num/10;
         }
         num = sum;
     } while(sum > 9);
@@ -451,7 +448,7 @@ function timespanToHumanString(startDate, endDate) {
  */
 function toNaryString(num, n) {
     let result = [];
-    while(num >= 1){
+    while (num >= 1) {
         result.unshift(num%n);
         num = Math.floor(num/n);
     }
@@ -557,15 +554,15 @@ function evaluateTicTacToePosition(position) {
         counter0 = 0;
         counterX = 0;
         for (let j = 0; j < position[i].length; j++) {
-            if (position[i][j] == 'X'){
+            if (position[i][j] == 'X') {
                 counterX = counterX + 1;
-            } else if (position[i][j] == '0'){
+            } else if (position[i][j] == '0') {
                 counter0 = counter0 + 1;
             }
         }
-        if (counterX == 3){
+        if (counterX == 3) {
             return 'X';
-        } else if (counter0 == 3){
+        } else if (counter0 == 3) {
             return '0';
         }
     }
@@ -573,9 +570,9 @@ function evaluateTicTacToePosition(position) {
         counter0 = 0;
         counterX = 0;
         for (let j = 0; j < position[i].length; j++) {
-            if (position[j][i] == 'X'){
+            if (position[j][i] == 'X') {
                 counterX = counterX + 1;
-            } else if (position[j][i] == '0'){
+            } else if (position[j][i] == '0') {
                 counter0 = counter0 + 1;
             }
         }
@@ -588,14 +585,14 @@ function evaluateTicTacToePosition(position) {
     counter0 = 0;
     counterX = 0;
     for (let i = 0; i < position.length; i++) {
-        if (position[i][i] == 'X'){
+        if (position[i][i] == 'X') {
             counterX = counterX + 1;
-        } else if (position[i][i] == '0'){
+        } else if (position[i][i] == '0') {
             counter0 = counter0 + 1;
         }
-        if (counterX == 3){
+        if (counterX == 3) {
             return 'X';
-        } else if (counter0 == 3){
+        } else if (counter0 == 3) {
             return '0';
         }
     }
@@ -603,14 +600,14 @@ function evaluateTicTacToePosition(position) {
     counterX = 0;
     let j = 0;
     for (let i = position.length - 1; i >= 0; i--) {
-        if (position[j][i] == 'X'){
+        if (position[j][i] == 'X') {
             counterX = counterX + 1;
-        } else if (position[j][i] == '0'){
+        } else if (position[j][i] == '0') {
             counter0 = counter0 + 1;
         }
-        if (counterX == 3){
+        if (counterX == 3) {
             return 'X';
-        } else if (counter0 == 3){
+        } else if (counter0 == 3) {
             return '0';
         }
         j++;
