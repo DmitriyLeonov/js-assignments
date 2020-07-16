@@ -30,11 +30,11 @@
  *
  */
 function getFizzBuzz(num) {
-    if(num % 3 == 0 && num % 5 == 0){
+    if (num % 3 == 0 && num % 5 == 0){
         return 'FizzBuzz';
-    }else if(num % 3 == 0){
+    } else if (num % 3 == 0){
         return 'Fizz';
-    }else if(num % 5 == 0){
+    } else if (num % 5 == 0){
         return 'Buzz';
     }
     return num;
@@ -53,7 +53,7 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    var factorial = 1
+    let factorial = 1
     for (let i = 1; i <= n; i++) {
         factorial = factorial * i;
     }
@@ -74,7 +74,7 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-    var sum = 0;
+    let sum = 0;
     for (let i = n1; i <= n2 ; i++){
         sum = sum + i;
     }
@@ -134,7 +134,7 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    if(rect1.top < rect2.top + rect2.width && rect2.top < rect1.top + rect1.width &&
+    if (rect1.top < rect2.top + rect2.width && rect2.top < rect1.top + rect1.width &&
         rect1.left < rect2.left + rect2.height && rect2.left < rect1.left + rect1.height) return true;
     else return false;
 }
@@ -167,8 +167,8 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    var h = Math.pow(point.x - circle.center.x,2)+Math.pow(point.y - circle.center.y,2);
-    if(h < Math.pow(circle.radius,2)){
+    let h = Math.pow(point.x - circle.center.x,2)+Math.pow(point.y - circle.center.y,2);
+    if (h < Math.pow(circle.radius,2)){
         return true
     }else return false;
 }
@@ -186,8 +186,8 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    for (var i = 0; i < str.length; i++) {
-        var c = str.charAt(i);
+    for (let i = 0; i < str.length; i++) {
+        let c = str.charAt(i);
         if (str.indexOf(c) == i && str.indexOf(c, i + 1) == -1) {
           return c;
         }
@@ -219,15 +219,15 @@ function findFirstSingleChar(str) {
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
     let interval = '';
-    if(isStartIncluded){
+    if (isStartIncluded){
         interval = interval + '[';
-    }else{
+    } else{
         interval = interval + '(';
     }  
     interval = interval + Math.min(a,b)+', '+Math.max(a,b);
-    if(isEndIncluded){
+    if (isEndIncluded){
         interval = interval + ']';
-    }else{
+    } else{
         interval = interval + ')';
     }  
     return interval;
@@ -268,7 +268,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    var result = 0;
+    let result = 0;
     while(num != 0){
         result = result * 10;
         result = result + num%10;
@@ -409,7 +409,7 @@ function isBracketsBalanced(str) {
  */
 function timespanToHumanString(startDate, endDate) {
     const minute = 60, hour = 60 * minute, day = 24*hour, month = 30*day, year = 365*day;
-    var delta = (endDate - startDate) / 1000;
+    let delta = (endDate - startDate) / 1000;
 
     function myRound(num) {
         if (num - Math.floor(num) > 0.5) return Math.round(num);
@@ -472,7 +472,7 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    var commom = '';
+    let commom = '';
     for (let i = 0; i < pathes[0].length; i++) {
         for (let j = 1; j < pathes.length; j++) {
             if (pathes[0].charAt(i) !== pathes[j].charAt(i)) {
