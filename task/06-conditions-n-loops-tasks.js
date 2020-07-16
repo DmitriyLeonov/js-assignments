@@ -97,10 +97,7 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a,b,c) {
-    if(a+b>c && a+c>b && b+c>a){
-        return true;
-    }
-    return false;
+    return a+b>c && a+c>b && b+c>a;
 }
 
 
@@ -222,22 +219,16 @@ function findFirstSingleChar(str) {
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
     let interval = '';
-    switch(isStartIncluded){
-        case true:
-            interval = interval + '[';
-            break;
-        case false:
-            interval = interval + '(';
-            break;
+    if(isStartIncluded){
+        interval = interval + '[';
+    }else{
+        interval = interval + '(';
     }  
     interval = interval + Math.min(a,b)+', '+Math.max(a,b);
-    switch(isEndIncluded){
-        case true:
-            interval = interval + ']';
-            break;
-        case false:
-            interval = interval + ')';
-            break;
+    if(isEndIncluded){
+        interval = interval + ']';
+    }else{
+        interval = interval + ')';
     }  
     return interval;
 }
@@ -256,11 +247,11 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    let new_str = '';
+    let newStr = '';
     for (let i = str.length-1 ; i >= 0; i--){
-        new_str = new_str + str[i];
+        newStr = newStr + str[i];
     }
-    return new_str;
+    return newStr;
 }
 
 
@@ -312,18 +303,16 @@ function isCreditCardNumber(ccn) {
     let sum = 0;
     ccn = String(ccn);
     for (let i = 0; i < ccn.length; i++) {
-    let cardNum = parseInt(ccn[i]);
-    if ((ccn.length - i) % 2 === 0) {
-      cardNum = cardNum * 2;
-      if (cardNum > 9) {
-        cardNum = cardNum - 9;
-      }
+        let cardNum = parseInt(ccn[i]);
+        if ((ccn.length - i) % 2 === 0) {
+            cardNum = cardNum * 2;
+        if (cardNum > 9) {
+            cardNum = cardNum - 9;
+        }
     }
     sum += cardNum;
   }
-  if (sum % 10 === 0)
-    return true;
-return false;
+return sum % 10 === 0;
 }
 
 
@@ -342,15 +331,16 @@ return false;
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
+    let sum;
     do{
-    var sum = 0;
-    while(num != 0){
+        sum = 0;
+        while(num != 0){
         sum = sum + num%10;
         num = num - num%10;
         num = num/10;
-    }
-    num = sum;
-    }while(sum > 9);
+        }
+        num = sum;
+    } while(sum > 9);
     return sum;
 }
 
@@ -569,13 +559,13 @@ function evaluateTicTacToePosition(position) {
         for (let j = 0; j < position[i].length; j++) {
             if (position[i][j] == 'X'){
                 counterX = counterX + 1;
-            }else if (position[i][j] == '0'){
+            } else if (position[i][j] == '0'){
                 counter0 = counter0 + 1;
             }
         }
         if (counterX == 3){
             return 'X';
-        }else if (counter0 == 3){
+        } else if (counter0 == 3){
             return '0';
         }
     }
@@ -585,13 +575,13 @@ function evaluateTicTacToePosition(position) {
         for (let j = 0; j < position[i].length; j++) {
             if (position[j][i] == 'X'){
                 counterX = counterX + 1;
-            }else if (position[j][i] == '0'){
+            } else if (position[j][i] == '0'){
                 counter0 = counter0 + 1;
             }
         }
         if (counterX == 3){
             return 'X';
-        }else if (counter0 == 3){
+        } else if (counter0 == 3){
             return '0';
         }
     }
@@ -600,12 +590,12 @@ function evaluateTicTacToePosition(position) {
     for (let i = 0; i < position.length; i++) {
         if (position[i][i] == 'X'){
             counterX = counterX + 1;
-        }else if (position[i][i] == '0'){
+        } else if (position[i][i] == '0'){
             counter0 = counter0 + 1;
         }
         if (counterX == 3){
             return 'X';
-        }else if (counter0 == 3){
+        } else if (counter0 == 3){
             return '0';
         }
     }
@@ -615,12 +605,12 @@ function evaluateTicTacToePosition(position) {
     for (let i = position.length - 1; i >= 0; i--) {
         if (position[j][i] == 'X'){
             counterX = counterX + 1;
-        }else if (position[j][i] == '0'){
+        } else if (position[j][i] == '0'){
             counter0 = counter0 + 1;
         }
         if (counterX == 3){
             return 'X';
-        }else if (counter0 == 3){
+        } else if (counter0 == 3){
             return '0';
         }
         j++;
