@@ -107,102 +107,119 @@ function fromJSON(proto, json) {
  *  For more examples see unit tests.
  */
 
+class CssPath {
+    constructor() {
+        this._path = '';
+    }
+
+    element(v) {
+        if (this._element) {
+            throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+        }
+        this.checkPosition('element');
+        this._element = v;
+        this.addToPath(this._element);
+        return this;
+    }
+
+    id(v) {
+        if (this._id) {
+            throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+        }
+        this.checkPosition('id');
+        this._id = `#${v}`;
+        this.addToPath(this._id);
+        return this;
+    }
+
+    pseudoElement(v) {
+        if (this._pseudoElement) {
+            throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+        }
+        this.checkPosition('pseudoElement');
+        this._pseudoElement = `::${v}`;
+        this.addToPath(this._pseudoElement);
+        return this;
+    }
+
+    class(v) {
+        this.checkPosition('class');
+        this._class = `.${v}`;
+        this.addToPath(this._class);
+        return this;
+    }
+
+    attr(v) {
+        this.checkPosition('attr');
+        this._attr = `[${v}]`;
+        this.addToPath(this._attr);
+        return this;
+    }
+
+    pseudoClass(v) {
+        this.checkPosition('pseudoClass');
+        this._pseudoClass = `:${v}`;
+        this.addToPath(this._pseudoClass);
+        return this;
+    }
+
+    checkPosition(v) {
+        const order = ['element', 'id', 'class', 'attr', 'pseudoClass', 'pseudoElement'];
+        if (order.slice(order.findIndex(el => el === v) + 1).some(el => this[`_${el}`])) {
+            throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+        }
+    }
+
+    addToPath(v) {
+        this._path += v;
+    }
+
+    stringify() {
+        return this._path;
+    }
+}
+
+class CssCombinedPath {
+    constructor(firstSelector, combinator, secondSelector) {
+        this.firstSelector = firstSelector;
+        this.combinator = combinator;
+        this.secondSelector = secondSelector;
+    }
+
+    stringify() {
+        return `${this.firstSelector.stringify()} ${this.combinator} ${this.secondSelector.stringify()}`;
+    }
+}
+
 const cssSelectorBuilder = {
 
     element: function(value) {
-        const copy = {...this};
-        if (this.elValue) {
-            throw new Error(
-                'Element, id and pseudo-element should not occur more then one time inside the selector',
-            );
-        }
-        if (this.idValue) {
-            throw new Error(
-                'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element',
-            );
-        }
-        !copy.elValue ? copy.elValue = value : copy.elValue += value;
-        return copy;
+        return new CssPath().element(value);
     },
 
-    id: function (value) {
-        const copy = {...this};
-        if (this.idValue) {
-            throw new Error(
-                'Element, id and pseudo-element should not occur more then one time inside the selector',
-            );
-        }
-        if (this.classValue || this.pseudoElValue) {
-            throw new Error(
-                'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element',
-            );
-        }
-        !copy.idValue ? copy.idValue = `#${value}` : copy.idValue += `#${value}`;
-        return copy;
+    id: function(value) {
+        return new CssPath().id(value);
     },
 
     class: function(value) {
-        const copy = {...this};
-        if (this.attrValue) {
-            throw new Error(
-                'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element',
-            );
-        }
-        !copy.classValue ?  copy.classValue = `.${value}` : copy.classValue += `.${value}`;
-        return copy;
+        return new CssPath().class(value);
     },
 
     attr: function(value) {
-        const copy = {...this};
-        if (this.pseudoClassValue) {
-            throw new Error(
-                'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element',
-            );
-        }
-        !copy.attrValue ? copy.attrValue = `[${value}]` : copy.attrValue += `[${value}]`;
-        return copy;
+        return new CssPath().attr(value);
     },
 
     pseudoClass: function(value) {
-        const copy = {...this};
-        if (this.pseudoElValue) {
-            throw new Error(
-                'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element',
-            );
-        }
-        !copy.pseudoClassValue ? copy.pseudoClassValue = `:${value}` : copy.pseudoClassValue += `:${value}`;
-        return copy;
+        return new CssPath().pseudoClass(value);
     },
 
     pseudoElement: function(value) {
-        const copy = {...this};
-        if (this.pseudoElValue) {
-            throw new Error(
-                'Element, id and pseudo-element should not occur more then one time inside the selector',
-            );
-        }
-        !copy.pseudoElValue ? copy.pseudoElValue = `::${value}` : copy.pseudoElValue += `::${value}`;
-        return copy;
+        return new CssPath().pseudoElement(value);
     },
 
     combine: function(selector1, combinator, selector2) {
-        const copy = {...this};
-        const value = `${selector1.stringify()} ${combinator} ${selector2.stringify()}`;
-        !copy.value ? copy.value = value : copy.value += value;
-        return copy;
+        return new CssCombinedPath(selector1, combinator, selector2);
     },
-
-    stringify() {
-        let value = '';
-        if (this.value) return this.value;
-        if (this.elValue) value += this.elValue;
-        if (this.idValue) value += this.idValue;
-        if (this.classValue) value += this.classValue;
-        if (this.attrValue) value += this.attrValue;
-        if (this.pseudoClassValue) value += this.pseudoClassValue;
-        if (this.pseudoElValue) value += this.pseudoElValue;
-        return value;
-      },
 };
 
 
